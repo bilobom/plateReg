@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "759146968043",
+    "firebase_url": "https://soficlef-75caf.firebaseio.com",
+    "project_id": "soficlef-75caf",
+    "storage_bucket": "soficlef-75caf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759146968043:android:541d9fea6b41d6c6",
+        "android_client_info": {
+          "package_name": "com.soficlef"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759146968043-83sbq4rd7m7m2k3mrs5l7mhkt3riq7md.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.soficlef",
+            "certificate_hash": "e3a79e765513d79a731ec3a630e0d23dc0ac6963"
+          }
+        },
+        {
+          "client_id": "759146968043-561ag55dhvb3eqqv2mp1dtuj3b3k69iq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0yyCcIKsm95aJCzWzMNev5K2iab_8QFM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759146968043-561ag55dhvb3eqqv2mp1dtuj3b3k69iq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
