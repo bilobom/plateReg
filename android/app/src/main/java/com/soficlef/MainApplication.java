@@ -7,6 +7,11 @@ import com.react.rnspinkit.RNSpinkitPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import org.reactnative.camera.RNCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import org.reactnative.camera.RNCameraPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.facebook.react.ReactNativeHost;
@@ -31,6 +36,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RNSpinkitPackage(),
+            new RNGestureHandlerPackage(),
+            new RNFirebasePackage(),
+            new RNCameraPackage(),
 
             /*actual*/
             new VectorIconsPackage(),

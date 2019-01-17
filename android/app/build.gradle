@@ -137,6 +137,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-spinkit')
+    compile project(':react-native-gesture-handler')
+    compile project(':react-native-firebase')
+    compile project(':react-native-camera')
     implementation project(':react-native-firebase')
     implementation "com.google.firebase:firebase-core:16.0.6"
     implementation "com.google.firebase:firebase-auth:+"
