@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View, StyleSheet, Text,FlatList, StatusBar} from 'react-native'
-import {Header} from 'react-native-elements'
+import {View, StyleSheet,FlatList, StatusBar} from 'react-native'
+import {Container, Header, Footer,Body, Text} from 'native-base'
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 //import Caroucel from './caroucelReg'
@@ -69,10 +69,6 @@ class registration extends React.Component {
   static navigationOptions={
     header: null
   }
-
-  componentDidMount(){
-
-  }
   renderSeparator = () => {
     return (
       <View
@@ -100,8 +96,9 @@ class registration extends React.Component {
   }
   render () {
     return (
+
       <View style={styles.container}>
-        <StatusBar translucent={true} backgroundColor={'rgba(0,0,0,0.1)'} animated={true}/>
+        {<StatusBar translucent={true} backgroundColor={'rgba(0,0,0,0.1)'} animated={true}/>}
         {this.renderTopBar()}
         <View style={styles.regContainer} >
           <FlatList

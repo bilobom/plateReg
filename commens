@@ -1,0 +1,19 @@
+{/*<View style={styles.container}>
+  {<StatusBar translucent={true} backgroundColor={'rgba(0,0,0,0.1)'} animated={true}/>}
+  {this.renderTopBar()}
+  <View style={styles.regContainer} >
+    <FlatList
+      data={this.state.plates}
+      keyExtractor={item => item.id}
+      ItemSeparatorComponent={this.renderSeparator}
+      renderItem= {({item}) => {
+        console.log(JSON.stringify(item));
+        return(
+          <LicensePlateInfo
+            info={item}
+          />
+        )
+      }}
+    />
+  </View>
+</View>*/}
