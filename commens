@@ -17,3 +17,9 @@
     />
   </View>
 </View>*/}
+
+
+
+<Text style={styles.infoText}> License Plate: {licenseN} </Text>
+<Text style={styles.infoText}> Car Regetration N° : {carN}</Text>
+<Text style={styles.infoText}> Empotisseur : {embotisseur} </Text>

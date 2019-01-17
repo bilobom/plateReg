@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View, StyleSheet,FlatList, StatusBar} from 'react-native'
-import {Container, Header, Footer,Body, Text} from 'native-base'
+import {View, StyleSheet, Text,FlatList, StatusBar} from 'react-native'
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 //import Caroucel from './caroucelReg'
