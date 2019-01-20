@@ -17,7 +17,7 @@ class QrCodeCamera extends Component {
   onSuccess(e) {
     // navigate to tasjilati
     alert(JSON.stringify(e));
-    this.props.navigation.navigate('myreg');
+    this.props.navigation.navigate('addPlate');
   }
 
   makeSlideOutTranslation(translationType, fromValue) {

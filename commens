@@ -23,3 +23,6 @@
 <Text style={styles.infoText}> License Plate: {licenseN} </Text>
 <Text style={styles.infoText}> Car Regetration N° : {carN}</Text>
 <Text style={styles.infoText}> Empotisseur : {embotisseur} </Text>
+
+ref={(ref)=>this.PlateInput=ref}
+ref={(ref) => this.certInput=ref}

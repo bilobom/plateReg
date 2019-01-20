@@ -4,6 +4,7 @@ const initialState={
   walkthroughDone:false,
   phoneNumber: "",
   qrCode: "",
+  shownWizard: 'false',
   plates: [
     {
       id:'0',
@@ -71,6 +72,15 @@ const qrCodeReducer = (state="", action)=>{
   }
   return state;
 }
+const shownWizardReducer = (state=false, action)=>{
+  if (action.type === 'UPDATE_WIZARD_IS_SHOWN') {
+    return{
+      ...state,
+      shownWizard: action.payload
+    }
+  }
+  return state;
+}
 const plateReducer = (state=[], action)=>{
   if (action.type === 'UPDATE_LICENSE_PLATE') {
     return{
@@ -103,5 +113,6 @@ const rootReducer = combineReducers({
   qrCode : qrCodeReducer,
   walkthroughDone: walkthroughReducer,
   plates: plateReducer,
+  shownWizard:shownWizardReducer,
 })
 export default store = createStore(rootReducer)

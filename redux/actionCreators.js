@@ -22,3 +22,9 @@ export const updatePlates =(plate)=>{
     payload: plate
   }
 }
+export const updateWizardBeenShown= (isShown)=>{
+  return{
+    type:'UPDATE_WIZARD_IS_SHOWN',
+    payload: isShown
+  }
+}

@@ -8,6 +8,7 @@ import phoneAuh from './screens/phoneAuth'
 import myreg from './screens/registration'
 import intro from './screens/intro'
 import licensePlateInfo from './screens/licensePlateInfo'
+import addPlate from './screens/addPlate'
 
 const AppNavigator = createStackNavigator(
   {
@@ -16,11 +17,12 @@ const AppNavigator = createStackNavigator(
     qrScanner: qrScanner,
     phoneAuh : phoneAuh,
     myreg:  myreg,
-    licensePlateInfo: licensePlateInfo
+    licensePlateInfo: licensePlateInfo,
+    addPlate: addPlate,
 
   },
   {
-    initialRouteName: "qrScanner"
+    initialRouteName: "intro"
 
   }
 );

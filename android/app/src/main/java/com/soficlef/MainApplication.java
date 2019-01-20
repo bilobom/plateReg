@@ -1,5 +1,5 @@
 package com.soficlef;
-
+import com.horcrux.svg.SvgPackage;
 import android.app.Application;
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
@@ -34,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 
             /*actual*/
+            new SvgPackage(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),
             new RNGestureHandlerPackage(),
