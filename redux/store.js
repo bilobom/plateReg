@@ -1,10 +1,23 @@
-import {createStore ,combineReducers} from 'redux'
+import {createStore ,combineReducers, applyMiddleware} from 'redux'
+import {uiReducer,userReducer,platesReducer,fireBaseDataReducer,tempPlateReducer} from './reducers'
+import thunk from 'redux-thunk'
+
 
 const initialState={
-  walkthroughDone:false,
-  phoneNumber: "",
-  qrCode: "",
-  shownWizard: 'false',
+  ui:{
+    walkthroughDone:false,
+    shownWizard: false,
+    isDialogVisible:false,
+  },
+  fireBaseData:{
+    phoneNumber:null,
+    userUID:"",
+  },
+  tempPlate:{
+    qrCode: "",
+    plateSucess:false,
+    currentIndex:5,
+  },
   plates: [
     {
       id:'0',
@@ -34,7 +47,7 @@ const initialState={
       qr:'sdfqljkshdflqjkshldjkfhljk'
     },
     {
-      id:'2',
+      id:'3',
       licenseN:'01125-018-42',
       carN: '546545654878',
       embotisseur:'001254478',
@@ -43,7 +56,7 @@ const initialState={
       qr:'dsfsqfksjdfgqlksjhdklfqksj'
     },
     {
-      id:'2',
+      id:'4',
       licenseN:'01125-018-42',
       carN: '546545654878',
       embotisseur:'001254478',
@@ -52,7 +65,7 @@ const initialState={
       qr:'qdfjqmùflsdkùfqmlsdkfmlmlqskflm'
     },
     {
-      id:'2',
+      id:'5',
       licenseN:'01125-018-42',
       carN: '546545654878',
       embotisseur:'001254478',
@@ -63,56 +76,12 @@ const initialState={
   ],
 }
 
-const qrCodeReducer = (state="", action)=>{
-  if (action.type === 'UPDATE_QR_CODE') {
-    return{
-      ...state,
-      qrCode: action.payload
-    }
-  }
-  return state;
-}
-const shownWizardReducer = (state=false, action)=>{
-  if (action.type === 'UPDATE_WIZARD_IS_SHOWN') {
-    return{
-      ...state,
-      shownWizard: action.payload
-    }
-  }
-  return state;
-}
-const plateReducer = (state=[], action)=>{
-  if (action.type === 'UPDATE_LICENSE_PLATE') {
-    return{
-      ...state,
-      paltes:[...state.plates, action.payload]
-    }
-  }
-  return state;
-}
-const walkthroughReducer = (state=false, action)=>{
-  if (action.type === 'UPDATE_WALKTHROUGH') {
-    return{
-      ...state,
-      walkthroughDone: action.payload
-    }
-  }
-  return state;
-}
-const phoneNumberReducer = (state="",action)=>{
-  if (action.type === 'UPDATE_PHONE_NUMBER') {
-    return{
-      ...state,
-      phoneNumber: action.payload
-    }
-  }
-  return state;
-}
+
 const rootReducer = combineReducers({
-  phoneNumber: phoneNumberReducer,
-  qrCode : qrCodeReducer,
-  walkthroughDone: walkthroughReducer,
-  plates: plateReducer,
-  shownWizard:shownWizardReducer,
-})
-export default store = createStore(rootReducer)
+  fireBaseData: fireBaseDataReducer,
+  user:userReducer,
+  plates: platesReducer,
+  tempPlate:tempPlateReducer,
+  ui:uiReducer,
+});
+export default store = createStore(rootReducer, initialState, applyMiddleware(thunk))

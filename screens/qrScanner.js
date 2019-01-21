@@ -4,6 +4,8 @@ import { View, Dimensions, Text } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import Icon from "react-native-vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
+import {updateQrCode} from '../redux/actionCreators'
+import {connect} from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -16,8 +18,13 @@ class QrCodeCamera extends Component {
   }
   onSuccess(e) {
     // navigate to tasjilati
-    alert(JSON.stringify(e));
-    this.props.navigation.navigate('addPlate');
+    console.log(JSON.stringify(e));
+    if(e.type ==="QR_CODE"){
+      this.props.updateQrCode(e.data);
+      this.props.navigation.navigate('addPlate');
+    }else{
+      alert("Cette Schema c'est pas a un QR Code")
+    }
   }
 
   makeSlideOutTranslation(translationType, fromValue) {
@@ -139,4 +146,4 @@ const styles = {
   }
 };
 
-export default QrCodeCamera;
+export default connect(null, {updateQrCode})(QrCodeCamera);

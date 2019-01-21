@@ -79,7 +79,6 @@ export default class PhoneAuthTest extends Component {
           onChangeText={value => this.setState({ phoneNumber: value })}
           placeholder={'Phone number ... '}
           value={phoneNumber}
-          keyboardAppearance={'red'}
           keyboardType={'phone-pad'}
         />
         <Button title="Sign In" color="green" onPress={this.signIn} />

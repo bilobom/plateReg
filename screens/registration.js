@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {View, StyleSheet, Text,FlatList, StatusBar} from 'react-native'
-
+import {connect} from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 //import Caroucel from './caroucelReg'
 import LicensePlateInfo from './licensePlateInfo'
@@ -12,58 +12,7 @@ const plates=[
 class registration extends React.Component {
   constructor(props){
     super(props);
-    this.state={
-      plates: [
-        {
-          id:'0',
-          licenseN:'00185-016-35',
-          carN: '546545654878',
-          embotisseur:'001254478',
-          model:'TOYOTA',
-          regDate:['TUESDAY', '05:01PM'],
-        },
-        {
-          id:'1',
-          licenseN:'01125-018-42',
-          carN: '546545654878',
-          embotisseur:'001254478',
-          model:'HONDA',
-          regDate:['MONDAY', '10:40AM'],
-        },
-        {
-          id:'2',
-          licenseN:'01125-018-42',
-          carN: '546545654878',
-          embotisseur:'001254478',
-          model:'PEUGEOT',
-          regDate:['MONDAY', '10:40AM'],
-        },
-        {
-          id:'2',
-          licenseN:'01125-018-42',
-          carN: '546545654878',
-          embotisseur:'001254478',
-          model:'DACIA',
-          regDate:['MONDAY', '10:40AM'],
-        },
-        {
-          id:'2',
-          licenseN:'01125-018-42',
-          carN: '546545654878',
-          embotisseur:'001254478',
-          model:'NISSAN',
-          regDate:['MONDAY', '10:40AM'],
-        },
-        {
-          id:'2',
-          licenseN:'01125-018-42',
-          carN: '546545654878',
-          embotisseur:'001254478',
-          model:'HUANDAY',
-          regDate:['MONDAY', '10:40AM'],
-        }
-      ]
-    }
+    
   }
   static navigationOptions={
     header: null
@@ -101,7 +50,7 @@ class registration extends React.Component {
         {this.renderTopBar()}
         <View style={styles.regContainer} >
           <FlatList
-            data={this.state.plates}
+            data={this.props.plates}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={this.renderSeparator}
             renderItem= {({item}) => {
@@ -151,5 +100,7 @@ const styles= StyleSheet.create({
     flex:4
   }
 })
-
-export default registration;
+const mapStateToProps=state=>({
+  plates: state.plates
+})
+export default connect(mapStateToProps)(registration);
