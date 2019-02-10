@@ -1,4 +1,6 @@
 package com.soficlef;
+import com.fetchsky.RNTextDetector.RNTextDetectorPackage;
+import com.azendoo.reactnativesnackbar.SnackbarPackage; 
 import com.horcrux.svg.SvgPackage;
 import android.app.Application;
 import com.facebook.react.ReactApplication;
@@ -34,6 +36,8 @@ public class MainApplication extends Application implements ReactApplication {
 
 
             /*actual*/
+            new RNTextDetectorPackage(),
+            new SnackbarPackage(),
             new SvgPackage(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),

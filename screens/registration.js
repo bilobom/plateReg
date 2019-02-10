@@ -1,21 +1,62 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {View, StyleSheet, Text,FlatList, StatusBar} from 'react-native'
+import {View, StyleSheet,FlatList, StatusBar} from 'react-native'
 import {connect} from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-//import Caroucel from './caroucelReg'
 import LicensePlateInfo from './licensePlateInfo'
+import ActionSheet from "./actionSheet";
+import SearchBar from './searchBar'
+import { Avatar } from 'react-native-elements';
 
-const plates=[
-
-]
 class registration extends React.Component {
   constructor(props){
     super(props);
-    
+    this.state={
+      showAction:false,
+      showSearchBar:false,
+    }
   }
-  static navigationOptions={
-    header: null
+  static navigationOptions=({navigation})=>{
+    return{
+      headerTitle: 'Enregistrement',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        color:"white",
+        alignSelf:'center',
+        textAlign:'center',
+        width: '90%',
+      },
+      headerLeft: (<View></View>), 
+      headerRight: (
+        <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+          <Icon
+            name='search'  color={'white'} size={30}
+            onPress={navigation.getParam('handelShowSearchBar')}
+            raised
+          />
+          <Icon
+            name='more-vert' color={'white'} size={30}
+            onPress={navigation.getParam('handelShowAction')
+            }
+            raised
+          />
+        </View>
+      ),
+      headerStyle: {backgroundColor:"#A5000D", marginTop: StatusBar.currentHeight},
+    }
+  }
+  componentDidMount(){
+    this.props.navigation.setParams({ handelShowAction: this._handelShowAction, handelShowSearchBar:this._handelShowSearchBar })
+  }
+  _handelShowAction=()=>{
+    this.state.showAction ? this.setState({showAction:false}): this.setState({showAction:true})
+    this.setState({showSearchBar:false})
+  }
+  _handelShowSearchBar=()=>{
+    this.state.showSearchBar ? this.setState({showSearchBar:false}): this.setState({showSearchBar:true})
+    this.setState({showAction:false})
+  }
+  addClicked=()=>{
+    this.props.navigation.navigate('qrScanner')
   }
   renderSeparator = () => {
     return (
@@ -28,39 +69,38 @@ class registration extends React.Component {
         }}
       />
   )}
-  renderTopBar(){
-    return(
-      <View style={styles.header}>
-        <View style={styles.util}>
-          <Icon name='more-vert' style={{backgroundColor:'white'}} color={'black'} size={50}/>
-          <Icon name='search' style={{backgroundColor:'white'}} color={'black'} size={50}/>
-        </View>
-        <View style={styles.headerText}>
-          <Text style={styles.textHeader} > تسجيلاتي </Text>
-          <Icon name='assignment' size={50}/>
-        </View>
-      </View>
-    )
-  }
+ 
   render () {
+    //console.warn(this.state)
     return (
 
       <View style={styles.container}>
-        {<StatusBar translucent={true} backgroundColor={'rgba(0,0,0,0.1)'} animated={true}/>}
-        {this.renderTopBar()}
+        <StatusBar translucent={true} backgroundColor={'rgba(165,0,13,1)'} animated={true}/>
+        <SearchBar showSearchBar={this.state.showSearchBar}/>
+        <ActionSheet showAction={this.state.showAction}/>
         <View style={styles.regContainer} >
           <FlatList
             data={this.props.plates}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={this.renderSeparator}
             renderItem= {({item}) => {
-              console.log(JSON.stringify(item));
+              //console.log(JSON.stringify(item));
               return(
                 <LicensePlateInfo
                   info={item}
                 />
               )
             }}
+          />
+        </View>
+        <View style={{position:'absolute', bottom:20, right:20}}>
+          <Avatar
+            large
+            rounded
+            overlayContainerStyle={{backgroundColor: '#A5000D'}}
+            icon={{name: 'add' ,size:45}}  
+            activeOpacity={0.7}
+            onPress={this.addClicked}
           />
         </View>
       </View>
@@ -98,6 +138,10 @@ const styles= StyleSheet.create({
   },
   regContainer:{
     flex:4
+  },
+  iconContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between'
   }
 })
 const mapStateToProps=state=>({

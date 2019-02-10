@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Spinner from 'react-native-spinkit'
-import  {View, StyleSheet, Image, StatusBar,Animated} from 'react-native'
-
+import  {View, StyleSheet, StatusBar,Animated} from 'react-native'
+import {connect} from 'react-redux'
 export class ImageLoader extends React.Component {
   state={
     opacity: new Animated.Value(0)
@@ -44,9 +44,32 @@ class Intro extends React.Component {
     header: null
   }
   componentDidMount(){
-    setInterval(()=>this.props.navigation.navigate("walkthrough"), 3000);
+    
+    
+      if(this.props.ui.walkthroughDone){
+        if(!this.props.user.token){
+          this.props.navigation.navigate('AuthStack')
+          console.log('1')
+        }else{
+          if(!this.props.fireBaseData.userUID){
+            console.log('2:'+this.props.fireBaseData.userUID)
+            this.props.navigation.navigate('phoneAuth')
+            
+          }else{
+            console.log('3:'+this.props.fireBaseData.userUID)
+            this.props.navigation.navigate('phoneAuth')
+            this.props.navigation.navigate('AppStack')
+          }
+      }
+      }else{
+        this.props.navigation.navigate('walkthrough')
+      }
+    
+
+    
   }
   render () {
+    //console.log('I am the fucking bug')
     return(
       <View style={styles.container} >
         <StatusBar
@@ -74,4 +97,10 @@ const styles= StyleSheet.create({
 
   }
 })
-export default Intro;
+const mapStateToPops=state=>({
+  user:state.user,
+  ui:state.ui,
+  fireBaseData:state.fireBaseData,
+})
+
+export default connect(mapStateToPops)(Intro);

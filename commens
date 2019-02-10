@@ -26,3 +26,35 @@
 
 ref={(ref)=>this.PlateInput=ref}
 ref={(ref) => this.certInput=ref}
+<TextInput
+          autoFocus
+          style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+          onChangeText={value => this.setState({ phoneNumber: value })}
+          placeholder={'Enter Votre Numero de Telephone... '}
+          value={phoneNumber}
+          keyboardType={'phone-pad'}
+        />
+
+
+<CopilotStep text="Valider Votre Requete Maintenant" order={3} name="submit">
+  <CopilotButton title="Valider"
+    onPress={() => this.handelSubmit()}
+    loading={this.state.loading}
+    rightIcon={{name: 'code'}}
+    rounded={true}
+    backgroundColor='#A5000D'
+      />
+</CopilotStep>        
+
+<CopilotStep text="Ou bien Syncronizez quant vous serez connecté" order={4} name="save">
+  <CopilotButton 
+    title="Sauveguarder"
+    onPress={()=> this.handelSave()}
+    rightIcon={{name: 'save'}}
+    backgroundColor='#A5000D'
+    loading={this.state.loadingSave}
+      rounded/>
+</CopilotStep>
+
+
+

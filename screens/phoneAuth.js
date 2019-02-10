@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Button, Text, TextInput, Image } from 'react-native';
-
+import { View, Button, Text, TextInput, Image, StyleSheet,StatusBar } from 'react-native';
 import firebase from 'react-native-firebase';
+import {connect} from 'react-redux'
 
 const successImageUri = 'https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_1280.png';
 
-export default class PhoneAuthTest extends Component {
+class PhoneAuthTest extends Component {
   static navigationOptions={
     header: null
   }
@@ -42,49 +42,15 @@ export default class PhoneAuthTest extends Component {
      if (this.unsubscribe) this.unsubscribe();
   }
 
-  signIn = () => {
-    const { phoneNumber } = this.state;
-    this.setState({ message: 'Sending code ...' });
+  
 
-    firebase.auth().signInWithPhoneNumber(phoneNumber)
-      .then(confirmResult => this.setState({ confirmResult, message: 'Code has been sent!' }))
-      .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
-  };
-
-  confirmCode = () => {
-    const { codeInput, confirmResult } = this.state;
-
-    if (confirmResult && codeInput.length) {
-      confirmResult.confirm(codeInput)
-        .then((user) => {
-          this.setState({ message: 'Code Confirmed!' });
-        })
-        .catch(error => this.setState({ message: `Code Confirm Error: ${error.message}` }));
-    }
-  };
+  
 
   signOut = () => {
     firebase.auth().signOut();
   }
 
-  renderPhoneNumberInput() {
-   const { phoneNumber } = this.state;
-
-    return (
-      <View style={{ padding: 25 }}>
-        <Text>Enter phone number:</Text>
-        <TextInput
-          autoFocus
-          style={{ height: 40, marginTop: 15, marginBottom: 15 }}
-          onChangeText={value => this.setState({ phoneNumber: value })}
-          placeholder={'Phone number ... '}
-          value={phoneNumber}
-          keyboardType={'phone-pad'}
-        />
-        <Button title="Sign In" color="green" onPress={this.signIn} />
-      </View>
-    );
-  }
+  
 
   renderMessage() {
     const { message } = this.state;
@@ -103,7 +69,7 @@ export default class PhoneAuthTest extends Component {
         <Text>Enter verification code below:</Text>
         <TextInput
           autoFocus
-          style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+          style={{ height: 60, marginTop: 15, marginBottom: 15 }}
           onChangeText={value => this.setState({ codeInput: value })}
           placeholder={'Code ... '}
           value={codeInput}
@@ -117,7 +83,7 @@ export default class PhoneAuthTest extends Component {
     const { user, confirmResult } = this.state;
     return (
       <View style={{ flex: 1 }}>
-
+        <StatusBar translucent={true} backgroundColor={'rgba(255,255,255,0.2)'}/>
         {!user && !confirmResult && this.renderPhoneNumberInput()}
 
         {this.renderMessage()}
@@ -145,3 +111,30 @@ export default class PhoneAuthTest extends Component {
     );
   }
 }
+
+const styles=StyleSheet.create({
+  container:{
+    flex:1,
+    paddingTop:StatusBar.currentHeight,
+
+  },
+  phoneInputField:{
+    flex:1,
+    alignItems:'center',
+    justifyContent:'flex-end'
+  },
+  verifyPhone:{
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
+    
+  },
+})
+const mapStateToProps=state=>({
+  
+})
+const mapActionsToProps={
+
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(PhoneAuthTest)

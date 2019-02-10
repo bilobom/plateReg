@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
 import {updateQrCode} from '../redux/actionCreators'
 import {connect} from 'react-redux'
+import {Avatar} from 'react-native-elements'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -16,9 +17,13 @@ class QrCodeCamera extends Component {
   static navigationOptions={
     header: null
   }
-  onSuccess(e) {
+  state={
+
+  }
+  onSuccess=(e)=> {
     // navigate to tasjilati
-    console.log(JSON.stringify(e));
+    console.log("qr event: "+JSON.stringify(e));
+    //alert(JSON.stringify(e))
     if(e.type ==="QR_CODE"){
       this.props.updateQrCode(e.data);
       this.props.navigation.navigate('addPlate');
@@ -26,7 +31,9 @@ class QrCodeCamera extends Component {
       alert("Cette Schema c'est pas a un QR Code")
     }
   }
-
+  anuller=()=>{
+    this.props.navigation.goBack();
+  }
   makeSlideOutTranslation(translationType, fromValue) {
     return {
       from: {
@@ -57,11 +64,9 @@ class QrCodeCamera extends Component {
               <View style={styles.leftAndRightOverlay} />
 
               <View style={styles.rectangle}>
-                <Icon
-                  name="ios-qr-scanner"
-                  size={SCREEN_WIDTH * 0.73}
-                  color={iconScanColor}
-                />
+                
+                <View>
+                </View> 
                 <Animatable.View
                   style={styles.scanBar}
                   direction="alternate-reverse"
@@ -70,7 +75,7 @@ class QrCodeCamera extends Component {
                   easing="linear"
                   animation={this.makeSlideOutTranslation(
                     "translateY",
-                    SCREEN_WIDTH * -0.54
+                    SCREEN_WIDTH * -0.70
                   )}
                 />
               </View>
@@ -78,7 +83,16 @@ class QrCodeCamera extends Component {
               <View style={styles.leftAndRightOverlay} />
             </View>
 
-            <View style={styles.bottomOverlay} />
+            <View style={styles.bottomOverlay} >
+              <Avatar
+                large
+                rounded
+                overlayContainerStyle={{backgroundColor: '#A5000D'}}
+                icon={{name: 'clear' ,size:45}}  
+                activeOpacity={0.7}
+                onPress={this.anuller}
+              />
+            </View>
           </View>
         }
       />
@@ -127,6 +141,9 @@ const styles = {
 
   bottomOverlay: {
     flex: 1,
+    alignItems:'center',
+    justifyContent:'center',
+    paddingTop:70,
     height: SCREEN_WIDTH,
     width: SCREEN_WIDTH,
     backgroundColor: overlayColor,

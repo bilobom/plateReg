@@ -1,15 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {FormLabel, FormInput, FormValidationMessage, Divider,Button } from 'react-native-elements'
-import {View,Text, StyleSheet,Dimensions,StatusBar,KeyboardAvoidingView} from 'react-native'
+import {View,StyleSheet,StatusBar,KeyboardAvoidingView, TouchableOpacity} from 'react-native'
 import {ImageLoader} from './intro'
-import Btn from 'react-native-micro-animated-button';
-import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
+import { copilot, CopilotStep } from '@okgrow/react-native-copilot';
 import {connect} from 'react-redux'
-import {updateWizardBeenShown, updatePlates} from '../redux/actionCreators'
-import Dialog from './dialog'
-const {SCREEN_WIDTH,SCREEN_HEIGHT} = Dimensions.get('window')
-
+import {updateWizardBeenShown,updateCertN,updateLicenseN} from '../redux/actionCreators'
 
 class CopilotButton extends React.Component {
   state={
@@ -39,126 +34,126 @@ class addPlate extends React.Component {
   state={
     plateError:'',
     certError:'',
-    certN:'',
-    PlateN: null,
     loading:false,
     loadingSave:false,
-    model:"",
   }
-  handleLicensePlate=(plateN)=>{
-    console.log("plateN: "+plateN.length)
-    if (isNaN(plateN) /*&& !plateN.includes('-')*/) {
-      this.setState({plateError : "Le Numero doit etre composeé uniquement des numeros "});
+  handleLicensePlate=(licenseN)=>{
+    console.log("licenseN: "+licenseN.length)
+    if (isNaN(licenseN) /*&& !licenseN.includes('-')*/) {
+      this.setState({plateError : "Le Numero doit étre composeé uniquement des numeros "});
       return;
       /*this.PlateInput.shake()*/
-    }else if ( plateN.length < 10 || plateN.length >= 11) {
-      this.setState({plateError : "Le Numero doit etre 10 chiffre"});
-      this.setState({plateN})
+    }else if ( licenseN.length < 10 || licenseN.length >= 11) {
+      this.setState({plateError : "Le Numero doit étre à 10 chiffre"});
+      this.props.updateLicenseN(licenseN)
       return;
     }else{
-      this.setState({plateN, plateError : ""})
-      if (plateN.length == 10) {
+      this.setState({plateError : ""})
+      this.props.updateLicenseN(licenseN)
+      if (licenseN.length == 10) {
         /*this.certInput.focus();*/
       }
     }
   }
   handleCertificate=(certN)=>{
-    console.log("plateN: "+certN)
+    console.log("licenseN: "+certN)
     if (isNaN(certN) /*&& !certN.includes('-')*/) {
       this.setState({certError : "Ce Numero doit etre composeé uniquement des numeros "});
       return;
       /*this.certInput.shake();*/
     }else if ( certN.length < 11 || certN.length >= 12) {
       this.setState({certError : "Le Numero doit etre 11 chiffre"});
-      this.setState({certN})
+      this.props.updateCertN(certN)
       return;
     }else{
-      this.setState({certN, certError : ""})
+      this.props.updateCertN(certN)
+      this.setState({ certError : ""})
     }
   }
   handelSubmit=()=>{
     this.setState({loading: true});
-    console.log("submitting");
+    //console.log("submitting");
     this.handelSave(true)
      //licenseN,certN,model
   }
   handelSave=(fromSubmit)=>{
-    console.log('saving...');
-    this.props.updatePlates(this.state.licenseN, this.state.certN, this.state.model)
+    //console.warn('saving...'+ JSON.stringify(this.state));
     if(!fromSubmit) this.setState({loadingSave:true})
+    //TODO show dialog
+    this.props.navigation.navigate('modelPicker')
   }
   componentDidMount(){
-    if(!this.props.ui.shownWizard) this.props.start();
+    if(!this.props.ui.shownWizard) {
+      //this.props.updateWizardBeenShown(true)      
+      this.props.start();
+    }
     this.props.copilotEvents.on('stop', () => {
       this.props.updateWizardBeenShown(true)
     });
   }
   componentWillUnmount() {
     this.props.copilotEvents.off('stop');
-    this.props.stop();
+    //this.props.stop();
   }
-  componentWillReceiveProps(nextProps){
-    // TODO: SHow Dialog accordingly
-    if (nextProps.tempPlate.plateSucess) {
-      // TODO: show a succes diag
-      this.props.navigation.navigate('myreg');
-    }
-  }
+  
   render () {
     return(
       <View style={styles.container}>
         <StatusBar translucent={true}
-          backgroundColor='rgba(0,0,0,0.1)'
+          backgroundColor='#A5000D'
         />
         <ImageLoader source={require('./assets/infoCard2.png')} style={styles.headerImage}/>
-          <KeyboardAvoidingView style={styles.formConatiner} behavior='padding' enabled>
+          <View style={styles.formConatiner} >
             <FormLabel labelStyle={{fontSize:20}}>Numéro d'immatriculation</FormLabel>
-              <CopilotStep text="Entrée Le Numero d'immatriculation de votre client" order={1} name="plateN">
+              <CopilotStep text="Entrez Le Numero d'immatriculation de votre client" order={1} name="licenseN">
                 <CopilotFormInput
                  inputStyle={styles.textStyle}
                  keyboardType='numeric'
-                 value={this.state.PlateN}
+                 value={this.props.tempPlate.licenseN}
                  onChangeText={this.handleLicensePlate}/>
                </CopilotStep>
-
               <FormValidationMessage>{this.state.plateError}</FormValidationMessage>
-
-
             <FormLabel  labelStyle={{fontSize:20}}>Numéro de Certificat</FormLabel>
             <CopilotStep text="Le numéro apparait sur la carte grise" order={2} name="certN">
               <CopilotFormInput
                 inputStyle={styles.textStyle}
                 keyboardType='numeric'
-               value={this.state.certN}
+               value={this.props.tempPlate.certN}
                onChangeText={this.handleCertificate.bind(this)}/>
             </CopilotStep>
 
              <FormValidationMessage>{this.state.certError}</FormValidationMessage>
              <Divider style={{ backgroundColor: 'blue' , height:15}} />
              <View style={styles.submitButton}>
-               <CopilotStep text="Valider Votre Requete Maintenant" order={3} name="submit">
-                 <CopilotButton title="Valider"
-                   onPress={this.handelSubmit.bind(this)}
-                   loading={this.state.loading}
-                   rightIcon={{name: 'code'}}
-                   rounded={true}
-                   backgroundColor='#A5000D'
-                    />
-               </CopilotStep>
-               <CopilotStep text="Ou bien Syncronizez quant je serais connectée" order={4} name="save">
-                 <CopilotButton title="Sauveguarder"
-                   onPress={this.handelSave.bind(this)}
-                   rightIcon={{name: 'save'}}
-                   backgroundColor='#A5000D'
-                   loading={this.state.loadingSave}
-                    rounded/>
-              </CopilotStep>
+              <TouchableOpacity  activeOpacity={0.6} onPress={() => this.handelSubmit()}>
+                <CopilotStep text="Valider Votre Requete Maintenant" order={3} name="submit">
+                  <CopilotButton title="Valider"
+                    onPress={() => this.handelSubmit()}
+                    loading={this.state.loading}
+                    rightIcon={{name: 'code'}}
+                    rounded={true}
+                    backgroundColor='#A5000D'
+                      />
+                </CopilotStep> 
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.6} onPress={() => this.handelSubmit()}>
+                <CopilotStep text="Ou bien Syncronizez quant vous serez connecté" order={4} name="save">
+                  <CopilotButton 
+                    title="Sauveguarder"
+                    onPress={()=> this.handelSave()}
+                    rightIcon={{name: 'save'}}
+                    backgroundColor='#A5000D'
+                    loading={this.state.loadingSave}
+                      rounded/>
+                </CopilotStep>
+              </TouchableOpacity>
+               
 
               </View>
-          </KeyboardAvoidingView>
+          </View>
           <View style={{flex:1}}>
           </View>
-          <Dialog text={'hi'}/>
+          
       </View>
     )
   }
@@ -166,7 +161,8 @@ class addPlate extends React.Component {
 const styles= StyleSheet.create({
   container:{
     flex:1,
-    alignItems:'center'
+    alignItems:'center',
+    paddingTop:StatusBar.currentHeight,
   },
   headerImage:{
     flex:4,
@@ -198,4 +194,10 @@ const mapStateToProps= (state) => ({
   tempPlate:state.tempPlate,
 
 })
-export default connect(mapStateToProps, {updateWizardBeenShown, updatePlates})(InnerComp)
+const mapActionsToprops={
+  updateWizardBeenShown,
+  updateLicenseN,
+  updateCertN,
+}
+
+export default connect(mapStateToProps,mapActionsToprops )(InnerComp)

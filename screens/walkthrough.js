@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet,View,StatusBar } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import store from '../redux/store'
-import {updateWalkthrough} from '../redux/actionCreators'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import  {updateWalkthrough} from '../redux/actionCreators'
+import {connect} from 'react-redux'
 const styles = StyleSheet.create({
   buttonCircle: {
     width: 40,
@@ -23,36 +23,41 @@ const styles = StyleSheet.create({
     height: 200,
   },
   lastText:{
-    fontSize:40,
+    fontSize:30,
   },
   lastTitle:{
     color:'#A5000D',
-    fontSize:50,
+    fontSize:40,
+    textAlign:'center',
+  },
+  secondTitle:{
+    textAlign:'center',
   }
 });
 
 const slides = [
   {
     key: '1',
-    title: 'مرحبا بك على المنصة',
-    text: 'تسمح لك هذه المنصة بتسجيل لوحات الترقيم \n الخاصة بزبائنك و الاطلاع على نقاطك.',
+    title:'Bienvenue sur la plateforme',
+    text: "Cette plateforme vous permet d'enregistrer les plaques d'immariculation \n de vos clients et de voir vos points.",
     image: require('./assets/carIntro1.png'),
     imageStyle: styles.image,
     backgroundColor: '#A5000D',
   },
   {
     key: '2',
-    title: ' تسجيل اللوحات الرقمية في الجزائر',
-    text:' تسجيل لوحاتك الرقمية بأسهل الطرق \n و بأعلى مواصفات الأمان و الحماية ',
+    title: "Le Premier en Algérie",
+    titleStyle:styles.secondTitle,
+    text:"Enregistrez votre plaques d'immariculation d'une manière simple \n avec les meilleures fonctionnalités de sécurité et de protection",
     image: require('./assets/carIntro3.jpg'),
     imageStyle: styles.image,
     backgroundColor: '#019587',
   },
   {
     key: '3',
-    title: 'شكرا على ثقتكم',
+    title: "Merci pour votre confiance",
     titleStyle: styles.lastTitle,
-    text:'',
+    text:"Allons-y -->",
     textStyle:styles.lastText,
     image: require('./assets/sof.jpg'),
     imageStyle: styles.bigImage,
@@ -60,12 +65,13 @@ const slides = [
   }
 ];
 
-export default class walkthough extends React.Component {
-    static navigationOptions={
-      header: null
-    }
+class walkthough extends React.Component {
+  static navigationOptions={
+    header: null
+  }
   _onDone = () => {
-    this.props.navigation.navigate('phoneAuh')
+    this.props.updateWalkthrough(true)
+    this.props.navigation.navigate('AuthStack')
   }
   _renderNextButton = () => {
     return (
@@ -104,19 +110,19 @@ export default class walkthough extends React.Component {
     );
   }
   render() {
-    if (store.getState().walkthough) {
-      return <walkthrough />;
-    } else {
-      return(
-          <AppIntroSlider
-             slides={slides}
-             onDone={this._onDone}
-             showPrevButton={true}
-             renderDoneButton={this._renderDoneButton}
-             renderNextButton={this._renderNextButton}
-             renderPrevButton={this._renderPrevButton}
-            />
-      )
-    }
+    return(
+      <AppIntroSlider
+        slides={slides}
+        onDone={this._onDone}
+        showPrevButton={true}
+        renderDoneButton={this._renderDoneButton}
+        renderNextButton={this._renderNextButton}
+        renderPrevButton={this._renderPrevButton}
+      />
+    )
   }
 }
+const mapStateToProps=state=>({
+  ui:state.ui,
+})
+export default connect(null, {updateWalkthrough})(walkthough)

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {View,StyleSheet,Text, Image, Dimensions} from 'react-native'
 import {Card,Button} from 'react-native-elements'
 
@@ -11,21 +10,17 @@ class LicensePlateInfo extends React.Component {
     header: null,
   }
   render () {
-    const {licenseN, carN,model,embotisseur,regDate}=this.props.info;
+    //console.log('this.prps.info==' + this.props.info);
+    
+    const {licenseN, certN,model,embotisseur,regDate}=this.props.info;
     return(
 
       <View style={styles.container}>
         <View style={styles.rightSideView}>
             <Card title={model}>
-              <Text style={styles.infoText}> License Plate: {licenseN} </Text>
-              <Text style={styles.infoText}> Car Regetration N° : {carN}</Text>
-              <Text style={styles.infoText}> Empotisseur : {embotisseur} </Text>
-              <Button
-                rounded={true}
-                icon={{name: 'code'}}
-                backgroundColor='#03A9F4'
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                title='See More' />
+              <Text style={styles.infoText}> N° de plaque: {licenseN.toString()} </Text>
+              <Text style={styles.infoText}> N° de certificat : {certN.toString()}</Text>
+              <Text style={styles.infoText}> Emboutisseur : {embotisseur} </Text>
             </Card>
         </View>
 
